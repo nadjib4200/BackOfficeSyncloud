@@ -1,0 +1,30 @@
+<section data-ng-controller="AppsController"  data-ng-init="find()">
+
+<div sidemenu></div>
+	<div class="wrapper row-offcanvas row-offcanvas-left" style="min-height: 612px;">
+            <aside class="right-side">
+                <section class="content-header">
+                    <h1 class="titleInProjectPage">
+                        My Apps
+                    </h1>
+                    <a href="#!/apps/create" class="btn btn-primary"><strong>Create App</strong></a>
+                    <ol class="breadcrumb">
+                        <li><a href="#!/"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li class="active">Apps</li>
+                    </ol>
+                </section>
+            </aside>
+            <aside class="right-side">
+            	<section class="content">
+                    <div class="row">
+                        <div class="col-xs-12">
+                               <div ng-repeat="app in apps">
+                               <div appbox ng-model="app"  color="{{getColor($index)}}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+								
+            </aside>
+        </div>
+</section>

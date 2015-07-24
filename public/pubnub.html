@@ -1,0 +1,30 @@
+<html>
+	
+	<head>
+			<script src="http://cdn.pubnub.com/pubnub.min.js"></script>
+
+ 	</head>
+	<body>
+	wainting...
+	<div id="text"></div>
+
+
+
+	<script>
+	var pubnub = PUBNUB.init({
+		publish_key: 'pub-c-ddc60605-57f5-4267-b32a-93af942c9438',
+		subscribe_key: 'sub-c-e66141da-5a29-11e4-bd8e-02ee2ddab7fe'
+	});
+
+	pubnub.subscribe({
+		channel: "user-xyz",
+		callback: function (message) {
+			document.getElementById('text').innerHTML = message
+		}
+	});
+	</script>
+
+
+
+	</body>
+</html>

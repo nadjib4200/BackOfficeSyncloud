@@ -1,0 +1,19 @@
+<div class="col-lg-3 col-xs-6" >
+        <div class="small-box " style="background-color: {{getColor($index)}}" >
+            <div class="inner projectbox" >
+                <a href="#!/{{app._id}}/page" >
+                <div>
+                <h4 >
+                        <strong>{{app.name}}</strong>
+                </h4>
+                <p>
+                        {{app.zipUrl}}
+                </p>
+                </div>
+                </a>
+            </div>
+            <a href="#!/apps/{{app._id}}/edit" class="small-box-footer" >
+            <b>Edit this app</b>
+            </a>
+        </div>
+</div>

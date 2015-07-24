@@ -1,0 +1,1 @@
+Events = {LOADER_SHOW:"loader_show", LOADER_HIDE:"loader_hide"}

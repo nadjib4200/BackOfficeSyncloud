@@ -1,0 +1,154 @@
+/*
+Component: Graphe
+--------------------
+*/
+
+  @-webkit-keyframes flash {
+    0%, 50%, 100% {
+      opacity: 1;
+    }
+
+    25%, 75% {
+      opacity: 0.2;
+    }
+  }
+
+  @keyframes flash {
+    0%, 50%, 100% {
+      opacity: 1;
+    }
+
+    25%, 75% {
+      opacity: 0.2;
+    }
+  }
+
+  .warn {
+    -webkit-animation-duration: 5s;
+    animation-duration: 5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+  }
+
+  .live.map {
+    width: 180%;
+    height: 100%;
+    max-height: 200px;
+    background-color: #f3f4f5;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .live.map svg{
+    padding-top: 50px;
+    padding-left: 50px;
+  }
+
+  .live.map text {
+    font-weight: 300;
+    font-size: 14px;
+  }
+
+  .live.map .node rect {
+    stroke-width: 2px;
+    stroke: rgb(64, 61, 100);
+    fill: rgb(64, 61, 100);
+  }
+
+  .live.map .status {
+    height: 100%;
+    width: 15px;
+    display: block;
+    float: left;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-right: 4px;
+    margin-top: -10px;
+  }
+
+  .live.map .running .status {
+    background-color: #7f7;
+  }
+
+  .live.map .running.warn .status {
+    background-color: #ffed68;
+  }
+
+  .live.map .stopped .status {
+    background-color: #f77;
+
+  }
+
+  .live.map .warn .queue {
+    color: #f77;
+  }
+
+  .warn {
+    -webkit-animation-name: flash;
+    animation-name: flash;
+  }
+
+  .live.map .consumers {
+    margin-right: 2px;
+  }
+
+  .live.map .consumers,
+  .live.map .name {
+    margin-top: 15px;
+    font-weight: bold;
+  } 
+
+  .live.map .consumers:after {
+    content: "x";
+  }
+
+  .live.map .queue {
+    display: block;
+    float: left;
+    width: 170px;
+    margin-top: 0px;
+    height: 20px;
+    font-size: 12px;
+    color: rgb(119, 255, 119);
+  }
+
+  .live.map .node g div {
+    width: 200px;
+    height: 40px;
+    color: #fff;
+    margin-top: 5px;
+    text-align: center;
+  }
+
+  .live.map .node g div span.consumers {
+    display: inline-block;
+    width: 20px;
+  }
+
+  .live.map .edgeLabel rect {
+    fill: #EEE;
+  }
+
+  .live.map .edgeLabel div {
+    width: 50px;
+    color: #0F0F0F;
+    text-align: center;
+    background-color: #ea6153;
+  }
+
+  .live.map .edgePath path {
+    stroke: #999;
+    stroke-width: 1.5px;
+    fill: none;
+  }
+
+  /* Override path marker color */
+  #arrowhead {
+    fill: #999 !important;
+  }

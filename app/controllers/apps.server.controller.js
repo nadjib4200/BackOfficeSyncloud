@@ -7,6 +7,8 @@ var mongoose = require('mongoose'),
 	App = mongoose.model('App'),
 	uuid = require('node-uuid'),
 	_ = require('lodash');
+	var pouchdb=require('pouchdb');
+	var db = new pouchdb('http://127.0.0.1:5984/apps');
 /**
  * Get the error message from error object
  */
@@ -35,19 +37,21 @@ var getErrorMessage = function(err) {
  * Create a App
  */
 exports.create = function(req, res) {
-		var key = uuid.v1();
-		var app = new App(req.body);
+
+		var app = req.body;
 		app.user = req.user;
-		app.key = key;
-		app.save(function(err) {
-			if (err) {
-				return res.send(400, {
-					message: getErrorMessage(err)
-				});
-			} else {
-				res.jsonp(app);
-			}
+		app.key = uuid.v1();
+		app._id = req.body.name;
+		db.put(app)
+		.then(function (response) {
+			console.log('Successfully');
+			console.log(response);
+			res.jsonp(app);
+		}).catch(function (err) {
+			console.log('Error');
+			console.log(err);
 		});
+
 };
 
 /**
@@ -62,22 +66,27 @@ exports.read = function(req, res) {
  */
 exports.update = function(req, res) {
 	var App = req.App;
-
-	if(!App.key){
-		App.key = uuid.v1();
-	}
-
-	App = _.extend(App, req.body);
-
-	App.save(function(err) {
-		if (err) {
-			return res.send(400, {
-				message: getErrorMessage(err)
+	db.get(App.name).then(function(doc) {
+			if(!App.key){
+				App.key = uuid.v1();
+			}
+			App = _.extend(App, req.body);
+			db.put(App)
+			.then(function (response) {
+				console.log('Successfully');
+				console.log(response);
+				res.jsonp(App);
+			}).catch(function (err) {
+				console.log('Error');
+				console.log(err);
+				res.json(err);
 			});
-		} else {
-			res.jsonp(App);
-		}
+	}).then(function(response) {
+	  console.log(response);
+	}).catch(function (err) {
+	  console.log(err);
 	});
+
 };
 
 /**
@@ -85,30 +94,34 @@ exports.update = function(req, res) {
  */
 exports.delete = function(req, res) {
 	var App = req.App;
-
-	App.remove(function(err) {
-		if (err) {
-			return res.send(400, {
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(App);
-		}
+	db.get(App._id).then(function(doc) {
+	  return db.remove(doc);
+	}).then(function (result) {
+	  res.jsonp(App);
+	}).catch(function (err) {
+		console.log(err);
+		return res.send(400, {
+			message: getErrorMessage(err)
+		});
 	});
+
 };
 
 /**
  * List of Apps
  */
 exports.list = function(req, res) {
-	App.find({user: req.user}).sort('-created').populate('user', 'displayName').exec(function(err, Apps) {
-		if (err) {
-			return res.send(400, {
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(Apps);
-		}
+	db.allDocs({
+	  include_docs: true,
+	  attachments: true
+	}).then(function (result) {
+	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
+		var a=_.pick(req.user,"username","roles","email","lastName","firstName");//extraire de la requete quelque info de l'utilisateur
+		var User={ "user" : a }; //cree un abjet user pour le comparer avec les doc de la base de donne
+		res.jsonp(_.filter(rows, User )); //retourne les apps de l'utilisateur connecter
+	}).catch(function (err) {
+	  console.log(err);
+	  res.jsonp(err);
 	});
 };
 
@@ -117,11 +130,11 @@ exports.list = function(req, res) {
  */
 
 exports.AppByID = function(req, res, next, id) {
-	App.find({'_id':id ,user: req.user}).populate('user', 'displayName').exec(function(err, Apps) {
-		if (err) return next(err);
-		if (!Apps) return next(new Error('Failed to load App ' + id));
-		req.App = Apps[0];
+	db.get(id).then(function (doc) {
+	  req.App = doc;
 		next();
+	}).catch(function (err) {
+	  return next(err);
 	});
 };
 
@@ -130,7 +143,7 @@ exports.AppByID = function(req, res, next, id) {
  */
 exports.hasAuthorization = function(req, res, next) {
 
-	if (req.App.user.id !== req.user.id) {
+	if (req.App.user._id !== req.user.id) {
 		return res.send(403, {
 			message: 'User is not authorized'
 		});

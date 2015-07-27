@@ -2,9 +2,8 @@
 
 module.exports = {
 	db: 'mongodb://localhost/app27617059',
-	//db: 'mongodb://admin:admin@162.252.108.122:12738/ninou',
+	//db2: 'http://127.0.0.1:5984',
 	//db: 'mongodb://heroku:JxL7nQ_bIkbkZKlO0kwXzTJz8YlariNwWJb-sGA_JllQH6oadtrRMBvagQf3ekGDueJzhOY5RrLcyPKJH8yPNw@linus.mongohq.com:10086/app30629384',
-	rabbitmq:'amqp://wnxwjwav:IVxuSn0dwjl-T2Zx6Imj3IB2SUCk0EKT@lemur.cloudamqp.com/wnxwjwav',
 	app: {
 		title: 'user-track - Development Environment'
 	},

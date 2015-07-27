@@ -7,8 +7,9 @@ var mongoose = require('mongoose'),
 	App = mongoose.model('App'),
 	uuid = require('node-uuid'),
 	_ = require('lodash');
+	var db2 = require('../../config/config').db2;
 	var pouchdb=require('pouchdb');
-	var db = new pouchdb('http://127.0.0.1:5984/apps');
+	var db = new pouchdb(db2+'/applications');
 /**
  * Get the error message from error object
  */

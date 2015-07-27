@@ -17,7 +17,7 @@ angular.module('usersApp').controller('usersAppController', ['$scope','$http', '
 				password:			this.password
 			};
 
-			usersAppService.saveUser(user).then(function(){
+			usersAppService.saveUser(user,$scope.appId).then(function(){
 
 				$location.path('/'+$stateParams.appId+'/page');
 			})
@@ -36,24 +36,14 @@ angular.module('usersApp').controller('usersAppController', ['$scope','$http', '
 		$scope.findOne = function() {
 			usersAppService.getUserApp($stateParams.userId).then(function (user) {
 				console.log(user);
-				$scope.user = user[0];
+				$scope.user = user;
 			});
 		};
 
-		$scope.edit = function(userId){
+		$scope.detail = function(userId){
 			$location.path('/usersApp/'+userId+'/detail')
 		};
-		$scope.update = function() {
-			var user = $scope.user;
-			usersAppService.updateUser(user).then(function() {
-				$location.path('/apps');
-			});
-		};
-		$scope.remove = function(){
-			usersAppService.removeApp($stateParams.appId).then(function () {
-				$location.path('/apps');
-			});
-		};
+		
 
 	}
 ]);

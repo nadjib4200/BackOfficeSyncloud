@@ -7,25 +7,21 @@ angular.module('usersApp')
 
 			return {
 				getUsersApp: function(appId){
-					// Just ONE GET to /apps/123/users
-					return Restangular.all('apps/'+appId+'/users').getList();
+					return Restangular.all('clients/'+appId).getList();
 				},
 				getUserApp: function(userId){
-					// Just ONE GET to /apps/123/users
-					return Restangular.one('user/'+userId).get();
+					return Restangular.one('client',userId).get();
 				},
-				saveUser: function(user){
-					return Restangular.all('auth/signup').post(user); //POST a new App
+				saveUser: function(user,appId){
+					return Restangular.all('clients/'+appId).post(user); //POST a new App
 				},
 
 				updateUser: function(app){
-					return Restangular.one("user").customPUT(app, app._id);
-				}/*,
-
-				removeUser: function(appId){
-					// Just ONE GET to /api/apps/123
-					return Restangular.one('apps', appId).remove();
-				}*/
+					return Restangular.one("client").customPUT(app, app._id);
+				},
+				removeUser: function(userId){
+					return Restangular.one('client', userId).remove();
+				}
 
 			}
 		}

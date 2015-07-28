@@ -1,23 +1,26 @@
 'use strict';
 var Events = window.Events;
 var $ = window.$;
+var filepicker = window.filepicker;
+
+filepicker.setKey("AxyphnToYSryOvLFNnrsAz");
 angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$stateParams', '$location', 'Authentication', 'AppService',
 	function($scope, $rootScope, $stateParams, $location, Authentication, AppService) {
 
 		$scope.authentication = Authentication;
 		$scope.appId=$stateParams.appId;
 		$scope.create = function() {
-			$rootScope.$broadcast(Events.LOADER_SHOW);
+			//$rootScope.$broadcast(Events.LOADER_SHOW);
 			var app = {
 				name: 		this.name,
-				zipUrl: 	this.zipUrl,
-				key: 			this.key
+				zipUrl: 	$scope.zipUrl,
+				iconUrl: 	$scope.iconUrl
 			};
-
+			console.log(app);
 			AppService.saveApp(app).then(function(){
 				$rootScope.$broadcast(Events.LOADER_HIDE);
 				$location.path('apps');
-			})
+			});
 
 		};
 
@@ -60,6 +63,42 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 			var COLORS = ['#7761a7','#19b698', '#3d566d', '#ea6153', '#001f3f', '#f012be'];
 			var colorSize = COLORS.length;
 			return COLORS[index%colorSize];
+		}
+		$scope.pickZipFile = function(){
+				// Settings
+	    filepicker.pick({
+	        mimetype: 'application/*', /* Images only */
+	        maxSize: 1024 * 1024 * 5, /* 5mb */
+	        services: ['*'] /* All available third-parties */
+	    }, function(blob){
+	        // Returned Stuff
+	        /*var filename = blob.filename;
+	        var url = blob.url;
+	        var id = blob.id;
+	        var isWriteable = blob.isWriteable;
+	        var mimetype = blob.mimetype;
+	        var size = blob.size;*/
+					$scope.zipUrl=blob.url;
+	        console.log(blob);
+	    });
+		}
+		$scope.pickIconFile = function(){
+				// Settings
+	    filepicker.pick({
+	        mimetype: 'image/*', /* Images only */
+	        maxSize: 1024 * 1024 * 5, /* 5mb */
+	        services: ['*'] /* All available third-parties */
+	    }, function(blob){
+	        // Returned Stuff
+	        /*var filename = blob.filename;
+	        var url = blob.url;
+	        var id = blob.id;
+	        var isWriteable = blob.isWriteable;
+	        var mimetype = blob.mimetype;
+	        var size = blob.size;*/
+					$scope.iconUrl=blob.url;
+	        console.log(blob)
+	    });
 		}
 
 	}

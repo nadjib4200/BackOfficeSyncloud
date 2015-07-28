@@ -36,6 +36,7 @@
     "mongodb": "1.4.19",
     "mongoose": "~3.8.8",
     "morgan": "~1.1.0",
+    "node-filepicker": "^0.1.2",
     "node-uuid": "1.4.1",
     "passport": "~0.2.0",
     "passport-facebook": "~1.0.2",

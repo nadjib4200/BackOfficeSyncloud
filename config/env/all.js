@@ -64,7 +64,8 @@ module.exports = {
 				//custom
 				'public/libs/dagre/graphlib.min.js',
 				'public/libs/dagre-d3/js/dagre-d3.min.js',
-				'public/libs/codemirror/addon/hint/algolia-hint.js'
+				'public/libs/codemirror/addon/hint/algolia-hint.js',
+				'public/dist/filepicker.js'
 			]
 		},
 		css: [

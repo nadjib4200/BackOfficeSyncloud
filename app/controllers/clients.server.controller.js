@@ -4,12 +4,13 @@
  * Module dependencies.
  */
 var _ = require('lodash');
-var db2 = require('../../config/config').db2;
+var url = require('../../config/config').db;
 var pouchdb=require('pouchdb');
-var db = new pouchdb(db2+'/users');
+var db = new pouchdb(url+'_users');
 /**
  * Get the error message from error object
  */
+
 var getErrorMessage = function(err) {
 	var message = '';
 

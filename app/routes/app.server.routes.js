@@ -20,8 +20,8 @@ module.exports = function(app) {
 
 	app.route('/api/apps/:appId')
 		.get(apps.read)
-		.put(users.requiresLogin, apps.hasAuthorization, apps.update)
-		.delete(users.requiresLogin, apps.hasAuthorization, apps.delete);
+		.put(users.requiresLogin, apps.update)
+		.delete(users.requiresLogin, apps.delete);
 
 	// Finish by binding the app middleware
 	app.param('appId', apps.AppByID);

@@ -4,9 +4,10 @@
  * Module dependencies.
  */
 var passport = require('passport'),
-	LocalStrategy = require('passport-local').Strategy,
-	User = require('mongoose').model('User');
-
+	LocalStrategy = require('passport-local').Strategy;
+	var url = require('../config').db;
+	var pouchdb=require('pouchdb');
+	var db = new pouchdb(url+'/users');
 module.exports = function() {
 	// Use local strategy
 	passport.use(new LocalStrategy({
@@ -14,9 +15,7 @@ module.exports = function() {
 			passwordField: 'password'
 		},
 		function(username, password, done) {
-			User.findOne({
-				username: username
-			}, function(err, user) {
+			db.get(username, function(err, user) {
 				if (err) {
 					return done(err);
 				}
@@ -25,7 +24,7 @@ module.exports = function() {
 						message: 'Unknown user'
 					});
 				}
-				if (!user.authenticate(password)) {
+				if (user.password!==password) {
 					return done(null, false, {
 						message: 'Invalid password'
 					});

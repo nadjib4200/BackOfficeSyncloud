@@ -1,10 +1,8 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/app27617059',
-	//db2: 'http://127.0.0.1:5984',
-	db2: 'http://195.154.223.114:5984/',
-	//db: 'mongodb://heroku:JxL7nQ_bIkbkZKlO0kwXzTJz8YlariNwWJb-sGA_JllQH6oadtrRMBvagQf3ekGDueJzhOY5RrLcyPKJH8yPNw@linus.mongohq.com:10086/app30629384',
+	db: 'http://195.154.223.114:5984/',
+	//db: 'http://127.0.0.1:5984/',
 	app: {
 		title: 'user-track - Development Environment'
 	},

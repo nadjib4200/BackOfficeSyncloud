@@ -10,13 +10,13 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 		$scope.authentication = Authentication;
 		$scope.appId=$stateParams.appId;
 		$scope.create = function() {
-			//$rootScope.$broadcast(Events.LOADER_SHOW);
+			$rootScope.$broadcast(Events.LOADER_SHOW);
 			var app = {
 				name: 		this.name,
 				zipUrl: 	$scope.zipUrl,
 				iconUrl: 	$scope.iconUrl
 			};
-			console.log(app);
+
 			AppService.saveApp(app).then(function(){
 				$rootScope.$broadcast(Events.LOADER_HIDE);
 				$location.path('apps');
@@ -34,6 +34,7 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 		};
 
 		$scope.find = function() {
+
 			$rootScope.$broadcast(Events.LOADER_SHOW);
 			AppService.getApps().then(function(apps){
 				console.log(apps);

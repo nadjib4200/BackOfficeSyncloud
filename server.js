@@ -3,19 +3,15 @@
  * Module dependencies.
  */
 var init = require('./config/init')(),
-	config = require('./config/config'),
-	mongoose = require('mongoose');
+	config = require('./config/config');
 
 /**
  * Main application entry file.
  * Please note that the order of loading is important.
  */
 
-// Bootstrap db connection
-var db = mongoose.connect(config.db);
-
 // Init the express application
-var app = require('./config/express')(db);
+var app = require('./config/express')();
 
 // Bootstrap passport config
 require('./config/passport')();

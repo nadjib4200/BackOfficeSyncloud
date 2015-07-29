@@ -3,16 +3,15 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-	App = mongoose.model('App'),
-	uuid = require('node-uuid'),
+var uuid = require('node-uuid'),
 	_ = require('lodash');
-	var db2 = require('../../config/config').db2;
+	var url = require('../../config/config').db;
 	var pouchdb=require('pouchdb');
-	var db = new pouchdb(db2+'/applications');
+	var db = new pouchdb(url+'applications');
 /**
  * Get the error message from error object
  */
+
 var getErrorMessage = function(err) {
 	var message = '';
 
@@ -40,9 +39,9 @@ var getErrorMessage = function(err) {
 exports.create = function(req, res) {
 
 		var app = req.body;
-		app.user = req.user;
 		app.key = uuid.v1();
 		app._id = req.body.name;
+		console.log(app);
 		db.put(app)
 		.then(function (response) {
 			console.log('Successfully');

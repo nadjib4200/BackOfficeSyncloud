@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'http://195.154.223.114:5984/',
+	db: 'http://zahir:syncloud@195.154.223.114:5984/',
 	//db: 'http://127.0.0.1:5984/',
 	app: {
 		title: 'user-track - Development Environment'

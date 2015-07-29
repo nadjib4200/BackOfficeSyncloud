@@ -6,13 +6,13 @@ angular.module('apps')
 		function(Restangular) {
 
 			return {
-				getApps: function(){
-					return Restangular.all('apps').getList(); //GET api/apps
+				getApps: function(userID){
+					return Restangular.all('apps/'+userID).getList(); //GET api/apps
 				},
 
 				getApp: function(appId){
 					// Just ONE GET to /api/apps/123
-					return Restangular.one('apps', appId).get();
+					return Restangular.one('app', appId).get();
 				},
 
 				saveApp: function(app){
@@ -20,12 +20,12 @@ angular.module('apps')
 				},
 
 				updateApp: function(app){
-					return Restangular.one("apps").customPUT(app, app._id);
+					return Restangular.one("app").customPUT(app, app._id);
 				},
 
 				removeApp: function(appId){
 					// Just ONE GET to /api/apps/123
-					return Restangular.one('apps', appId).remove();
+					return Restangular.one('app', appId).remove();
 				}
 
 			}

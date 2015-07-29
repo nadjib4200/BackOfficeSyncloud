@@ -14,11 +14,12 @@ var users = require('../../app/controllers/users'),
 
 module.exports = function(app) {
 	//  Project Routes
-	app.route('/api/apps')
-		.get(apps.list)
-		.post(users.requiresLogin,apps.create);
+	app.route('/api/apps/:userID')
+		.get(apps.list);
+		app.route('/api/apps')
+			.post(users.requiresLogin,apps.create);
 
-	app.route('/api/apps/:appId')
+	app.route('/api/app/:appId')
 		.get(apps.read)
 		.put(users.requiresLogin, apps.update)
 		.delete(users.requiresLogin, apps.delete);

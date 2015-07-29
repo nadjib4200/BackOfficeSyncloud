@@ -14,7 +14,8 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 			var app = {
 				name: 		this.name,
 				zipUrl: 	$scope.zipUrl,
-				iconUrl: 	$scope.iconUrl
+				iconUrl: 	$scope.iconUrl,
+				user:			$scope.authentication.user
 			};
 
 			AppService.saveApp(app).then(function(){
@@ -34,9 +35,8 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 		};
 
 		$scope.find = function() {
-
 			$rootScope.$broadcast(Events.LOADER_SHOW);
-			AppService.getApps().then(function(apps){
+			AppService.getApps($scope.authentication.user._id).then(function(apps){
 				console.log(apps);
 				$scope.apps = apps;
 				$rootScope.$broadcast(Events.LOADER_HIDE);

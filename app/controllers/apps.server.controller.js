@@ -41,7 +41,6 @@ exports.create = function(req, res) {
 		var app = req.body;
 		app.key = uuid.v1();
 		app._id = req.body.name;
-		console.log(app);
 		db.put(app)
 		.then(function (response) {
 			console.log('Successfully');
@@ -58,6 +57,7 @@ exports.create = function(req, res) {
  * Show the current App
  */
 exports.read = function(req, res) {
+	console.log("read");
 	res.jsonp(req.App);
 };
 
@@ -116,11 +116,10 @@ exports.list = function(req, res) {
 	  attachments: true
 	}).then(function (result) {
 	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
-		var a=_.pick(req.user,"username","roles","email","lastName","firstName");//extraire de la requete quelque info de l'utilisateur
-		var User={ "user" : a }; //cree un abjet user pour le comparer avec les doc de la base de donne
-		res.jsonp(_.filter(rows, User )); //retourne les apps de l'utilisateur connecter
+		var User={ "user" : {_id: req.params.userID} }; //cree un abjet user pour le comparer avec les doc de la base de donne
+	res.jsonp(_.filter(rows, User )); //retourne les apps de l'utilisateur connecter
 	}).catch(function (err) {
-	  console.log(err);
+		console.log(err);
 	  res.jsonp(err);
 	});
 };

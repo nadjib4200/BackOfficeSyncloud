@@ -6,7 +6,7 @@
 var _ = require('lodash');
 var url = require('../../config/config').db;
 var pouchdb=require('pouchdb');
-var db = new pouchdb(url+'_users');
+var db = new pouchdb(url+'clients');
 /**
  * Get the error message from error object
  */

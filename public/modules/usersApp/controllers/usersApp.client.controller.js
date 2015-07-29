@@ -16,7 +16,7 @@ angular.module('usersApp').controller('usersAppController', ['$scope','$http', '
 				username:			this.username,
 				password:			this.password
 			};
-
+			console.log(user);
 			usersAppService.saveUser(user,$scope.appId).then(function(){
 
 				$location.path('/'+$stateParams.appId+'/page');
@@ -43,7 +43,7 @@ angular.module('usersApp').controller('usersAppController', ['$scope','$http', '
 		$scope.detail = function(userId){
 			$location.path('/usersApp/'+userId+'/detail')
 		};
-		
+
 
 	}
 ]);

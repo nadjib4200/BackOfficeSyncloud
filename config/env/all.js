@@ -3,7 +3,7 @@
 
 module.exports = {
 	app: {
-		title: 'user-track',
+		title: 'Syncloud',
 		description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
 		keywords: 'user, stats, track'
 	},

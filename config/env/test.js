@@ -4,7 +4,7 @@ module.exports = {
 	db: 'mongodb://localhost/user-track-test',
 	port: 3001,
 	app: {
-		title: 'user-track - Test Environment'
+		title: 'Syncloud - Test Environment'
 	},
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',

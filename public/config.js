@@ -3,8 +3,8 @@
 // Init the application configuration module for AngularJS application
 var ApplicationConfiguration = (function() {
 	// Init module configuration options
-	var applicationModuleName = 'user-track';
-	var applicationModuleVendorDependencies = [ 'ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router', 'ui.bootstrap', 
+	var applicationModuleName = 'syncloud';
+	var applicationModuleVendorDependencies = [ 'ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router', 'ui.bootstrap',
 	'ui.utils', 'restangular', 'angular-ladda'];
 
 	// Add a new vertical module

@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/user-track-test',
+	db: 'mongodb://localhost/syncloud-test',
 	port: 3001,
 	app: {
 		title: 'Syncloud - Test Environment'

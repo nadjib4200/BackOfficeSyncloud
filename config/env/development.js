@@ -4,7 +4,7 @@ module.exports = {
 	db: 'http://zahir:syncloud@195.154.223.114:5984/',
 	//db: 'http://127.0.0.1:5984/',
 	app: {
-		title: 'user-track - Development Environment'
+		title: 'syncloud - Development Environment'
 	},
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',

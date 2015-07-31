@@ -2,7 +2,7 @@
 // Init the application configuration module for AngularJS application
 var ApplicationConfiguration = function () {
     // Init module configuration options
-    var applicationModuleName = 'user-track';
+    var applicationModuleName = 'syncloud';
     var applicationModuleVendorDependencies = [
         'ngResource',
         'ngCookies',

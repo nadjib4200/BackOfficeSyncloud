@@ -3,7 +3,8 @@ var Events = window.Events;
 var $ = window.$;
 angular.module('usersApp').controller('usersAppController', ['$scope','$http', '$rootScope', '$stateParams', '$location', 'Authentication', 'usersAppService',
 	function($scope,$http, $rootScope, $stateParams, $location, Authentication, usersAppService) {
-
+		var roles = $("#roles");
+		roles.tagsinput();
 		$scope.authentication = Authentication;
 		$scope.appId= $stateParams.appId;
 		$scope.create = function() {
@@ -14,7 +15,8 @@ angular.module('usersApp').controller('usersAppController', ['$scope','$http', '
 				lastName:			this.lastName,
 				email:				this.email,
 				username:			this.username,
-				password:			this.password
+				password:			this.password,
+				roles: 				this.roles.split(",")
 			};
 			console.log(user);
 			usersAppService.saveUser(user,$scope.appId).then(function(){

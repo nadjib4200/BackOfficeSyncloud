@@ -6,7 +6,7 @@
 var _ = require('lodash');
 var url = require('../../config/config').db;
 var pouchdb=require('pouchdb');
-var db = new pouchdb(url+'clients');
+var db = new pouchdb(url+'_users');
 /**
  * Get the error message from error object
  */
@@ -37,7 +37,9 @@ var getErrorMessage = function(err) {
  */
 exports.create = function(req, res) {
 		var client = req.body;
-		client._id = req.body.username;
+		client._id = "org.couchdb.user:"+req.body.username;
+		client.type="user";
+		client.name=req.body.lastName;
 		db.put(client)
 		.then(function (response) {
 			console.log('Successfully');

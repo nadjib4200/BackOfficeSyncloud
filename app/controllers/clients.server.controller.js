@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 var _ = require('lodash');
-var url = require('../../config/config').db;
+var url = require('../../config/config').couchdb;
 var pouchdb=require('pouchdb');
-var db = new pouchdb(url+'_users');
+var db = new pouchdb(url+'users');
 /**
  * Get the error message from error object
  */

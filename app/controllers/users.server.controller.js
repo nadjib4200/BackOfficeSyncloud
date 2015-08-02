@@ -3,11 +3,10 @@
 /**
  * Module dependencies.
  */
-var _ = require('lodash'),
-		passport = require('passport');
-		var url = require('../../config/config').db;
-		var pouchdb=require('pouchdb');
-		var db = new pouchdb(url+'users');
+var mongoose = require('mongoose'),
+	passport = require('passport'),
+	User = mongoose.model('User'),
+	_ = require('lodash');
 /**
  * Get the error message from error object
  */
@@ -40,37 +39,36 @@ exports.signup = function(req, res) {
 	delete req.body.roles;
 
 	// Init Variables
-	var user = req.body;
+	var user = new User(req.body);
 	var message = null;
 	// Add missing user fields
 	user.provider = 'local';
 	user.displayName = user.firstName + ' ' + user.lastName;
 
 	// Then save the user
-	user._id = req.body.username;
-	db.put(user)
-	.then(function (response) {
-		console.log('Successfully');
-		console.log(response);
-		// Remove sensitive data before login
-		user.password = undefined;
-		user.salt = undefined;
-		req.isAuthenticated=true;
-		req.login(user, function(err) {
-			if (err) {
-				console.log(err);
-				res.send(400, err);
-			} else {
-				req.user=user;
+	user.save(function(err) {
+		if (err) {
+			console.log(err);
+			return res.send(400, {
+				message: getErrorMessage(err)
+			});
+		} else {
+			// Remove sensitive data before login
+			user.password = undefined;
+			user.salt = undefined;
+			if(!user.appID){
+				req.login(user, function(err) {
+					if (err) {
+						res.send(400, err);
+					} else {
+						res.jsonp(user);
+					}
+				});
+			}
+			else {
 				res.jsonp(user);
 			}
-		});
-	}).catch(function (err) {
-		console.log('Error');
-		console.log(err);
-		return res.send(400, {
-			message: getErrorMessage(err)
-		});
+		}
 	});
 };
 
@@ -82,7 +80,6 @@ exports.signin = function(req, res, next) {
 		if (err || !user) {
 			res.send(400, info);
 		} else {
-			req.user=user;
 			// Remove sensitive data before login
 			user.password = undefined;
 			user.salt = undefined;
@@ -102,10 +99,10 @@ exports.signin = function(req, res, next) {
  * Update user details
  */
 exports.update = function(req, res) {
-
 	// Init Variables
 	var user = req.user;
 	var message = null;
+
 	// For security measurement we remove the roles from the req.body object
 	delete req.body.roles;
 
@@ -115,35 +112,26 @@ exports.update = function(req, res) {
 		user.updated = Date.now();
 		user.displayName = user.firstName + ' ' + user.lastName;
 
-		db.get(user.username).then(function(doc) {
-				db.put(user)
-				.then(function (response) {
-					if(!user.appID){
-						req.login(user, function(err) {
-							if (err) {
-								res.send(400, err);
-							} else {
-								res.jsonp(user);
-							}
-						});
-					}
-					else {
-						res.jsonp(user);
-					}
-					console.log('Successfully');
-					console.log(response);
-					res.jsonp(user);
-				}).catch(function (err) {
-					console.log('Error');
-					console.log(err);
-					return res.send(400, {
-						message: getErrorMessage(err)
-					});
+		user.save(function(err) {
+			if (err) {
+				console.log(err);
+				return res.send(400, {
+					message: getErrorMessage(err)
 				});
-		}).then(function(response) {
-		  console.log(response);
-		}).catch(function (err) {
-		  console.log(err);
+			} else {
+				if(!user.appID){
+					req.login(user, function(err) {
+						if (err) {
+							res.send(400, err);
+						} else {
+							res.jsonp(user);
+						}
+					});
+				}
+				else {
+					res.jsonp(user);
+				}
+			}
 		});
 	} else {
 		res.send(400, {
@@ -154,10 +142,10 @@ exports.update = function(req, res) {
 
 /**
  * Change Password
-*/
+ */
 exports.changePassword = function(req, res, next) {
 	// Init Variables
-	/*var passwordDetails = req.body;
+	var passwordDetails = req.body;
 	var message = null;
 
 	if (req.user) {
@@ -210,7 +198,7 @@ exports.changePassword = function(req, res, next) {
 		res.send(400, {
 			message: 'User is not signed in'
 		});
-	}*/
+	}
 };
 
 /**
@@ -252,11 +240,13 @@ exports.oauthCallback = function(strategy) {
  * User middleware
  */
 exports.userByID = function(req, res, next, id) {
-	db.get(id).then(function (doc) {
-		req.profile = doc;
+	User.findOne({
+		_id: id
+	}).exec(function(err, user) {
+		if (err) return next(err);
+		if (!user) return next(new Error('Failed to load User ' + id));
+		req.profile = user;
 		next();
-	}).catch(function (err) {
-	  return next(err);
 	});
 };
 
@@ -264,7 +254,7 @@ exports.userByID = function(req, res, next, id) {
  * Require login routing middleware
  */
 exports.requiresLogin = function(req, res, next) {
-  if (!req.isAuthenticated) {
+	if (!req.isAuthenticated()) {
 		return res.send(401, {
 			message: 'User is not logged in'
 		});
@@ -294,7 +284,7 @@ exports.hasAuthorization = function(roles) {
 
 /**
  * Helper function to save or update a OAuth user profile
-
+ */
 exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
 	if (!req.user) {
 		// Define a search query fields
@@ -365,37 +355,37 @@ exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
 		}
 	}
 };
-*/
+
 /**
  * Remove OAuth provider
  */
 exports.removeOAuthProvider = function(req, res, next) {
 	var user = req.user;
 	var provider = req.param('provider');
+
 	if (user && provider) {
 		// Delete the additional provider
 		if (user.additionalProvidersData[provider]) {
 			delete user.additionalProvidersData[provider];
+
 			// Then tell mongoose that we've updated the additionalProvidersData field
 			user.markModified('additionalProvidersData');
 		}
-		db.put(user.username)
-		.then(function (response) {
-			console.log('Successfully');
-			console.log(response);
-			req.login(user, function(err) {
-				if (err) {
-					res.send(400, err);
-				} else {
-					res.jsonp(user);
-				}
-			});
-		}).catch(function (err) {
-			console.log('Error');
-			console.log(err);
-			return res.send(400, {
-				message: getErrorMessage(err)
-			});
+
+		user.save(function(err) {
+			if (err) {
+				return res.send(400, {
+					message: getErrorMessage(err)
+				});
+			} else {
+				req.login(user, function(err) {
+					if (err) {
+						res.send(400, err);
+					} else {
+						res.jsonp(user);
+					}
+				});
+			}
 		});
 	}
 };
@@ -404,17 +394,14 @@ exports.removeOAuthProvider = function(req, res, next) {
  * List of users on this App
  */
 exports.list = function(req, res) {
-	db.allDocs({
-	  include_docs: true,
-	  attachments: true
-	}).then(function (result) {
-	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
-		res.jsonp(_.filter(rows, {appID: req.params.appID} )); //retourne les user de l'app
-	}).catch(function (err) {
-	  console.log(err);
-		return res.send(400, {
-			message: getErrorMessage(err)
-		});
+	User.find({appID: req.params.appID}).sort('-created').populate('user', 'displayName').exec(function(err, Apps) {
+		if (err) {
+			return res.send(400, {
+				message: getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(Apps);
+		}
 	});
 };
 
@@ -422,16 +409,13 @@ exports.list = function(req, res) {
  * get user of this App
  */
 exports.getUser = function(req, res) {
-	db.allDocs({
-	  include_docs: true,
-	  attachments: true
-	}).then(function (result) {
-	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
-		res.jsonp(_.filter(rows, {_id: req.params.username} )); //retourne les user de l'app
-	}).catch(function (err) {
-	  console.log(err);
-		return res.send(400, {
-			message: getErrorMessage(err)
-		});
+	User.find({_id: req.params.userID}).sort('-created').populate('user', 'displayName').exec(function(err, user) {
+		if (err) {
+			return res.send(400, {
+				message: getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(user);
+		}
 	});
 };

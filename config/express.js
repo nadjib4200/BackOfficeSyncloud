@@ -12,13 +12,16 @@ var express = require('express'),
 	cookieParser = require('cookie-parser'),
 	helmet = require('helmet'),
 	passport = require('passport'),
+	mongoStore = require('connect-mongo')({
+		session: session
+	}),
 	flash = require('connect-flash'),
 	config = require('./config'),
 	consolidate = require('consolidate'),
 	path = require('path');
 	var helmet = require('helmet');
 
-module.exports = function() {
+module.exports = function(db) {
 	// Initialize express app
 	var app = express();
 
@@ -74,13 +77,21 @@ module.exports = function() {
 	app.use(bodyParser.urlencoded());
 	app.use(bodyParser.json());
 	app.use(methodOverride());
-
+	
 	// Enable jsonp
 	app.enable('jsonp callback');
 
 	// CookieParser should be above session
 	app.use(cookieParser());
 
+	// Express MongoDB session storage
+	app.use(session({
+		secret: config.sessionSecret,
+		store: new mongoStore({
+			db: db.connection.db,
+			collection: config.sessionCollection
+		})
+	}));
 
 	// use passport session
 	app.use(passport.initialize());

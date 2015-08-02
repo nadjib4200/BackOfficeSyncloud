@@ -5,7 +5,7 @@
  */
 var uuid = require('node-uuid'),
 	_ = require('lodash');
-	var url = require('../../config/config').db;
+	var url = require('../../config/config').couchdb;
 	var pouchdb=require('pouchdb');
 	var db = new pouchdb(url+'applications');
 /**

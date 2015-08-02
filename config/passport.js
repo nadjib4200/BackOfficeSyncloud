@@ -1,25 +1,22 @@
 'use strict';
 
 var passport = require('passport'),
-	//User = require('mongoose').model('User'),
+	User = require('mongoose').model('User'),
 	path = require('path'),
 	config = require('./config');
-	var url = require('./config').db;
-	var pouchdb=require('pouchdb');
-	var db = new pouchdb(url+'/users');
 
 module.exports = function() {
 	// Serialize sessions
 	passport.serializeUser(function(user, done) {
-		done(null, user._id);
+		done(null, user.id);
 	});
 
 	// Deserialize sessions
 	passport.deserializeUser(function(id, done) {
-		console.log(id);
-		db.get(id, function(err, doc) {
-		  console.log(doc);
-			done(err, doc);
+		User.findOne({
+			_id: id
+		}, '-salt -password', function(err, user) {
+			done(err, user);
 		});
 	});
 

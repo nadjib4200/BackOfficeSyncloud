@@ -22,7 +22,7 @@ module.exports = {
 				'public/lib/codemirror/theme/monokai.css',
 				'public/lib/ladda/css/demo.css',
 				'public/lib/ladda/dist/ladda.min.css',
-				'public/lib/bootstrap-tagsinput/dist/bootstrap-tagsinput.css'
+				'public/libs/bootstrap-tagsinput/dist/bootstrap-tagsinput.css'
 			],
 			js: [
 				'public/lib/jquery/dist/jquery.min.js',
@@ -63,9 +63,9 @@ module.exports = {
 				"public/lib/typeahead.js/dist/bloodhound.min.js",
 				"public/lib/typeahead.js/dist/typeahead.bundle.min.js",
 				"public/lib/typeahead.js/dist/typeahead.jquery.min.js",
-				'public/lib/bootstrap-tagsinput/dist/bootstrap-tagsinput.js',
 				'public/lib/checklist-model/checklist-model.js',
 				//custom
+				'public/libs/bootstrap-tagsinput/dist/bootstrap-tagsinput.js',
 				'public/libs/dagre/graphlib.min.js',
 				'public/libs/dagre-d3/js/dagre-d3.min.js',
 				'public/libs/codemirror/addon/hint/algolia-hint.js',

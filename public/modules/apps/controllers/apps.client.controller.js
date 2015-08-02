@@ -28,6 +28,8 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 
 		$scope.update = function() {
 			var app = $scope.app;
+			if($scope.zipUrl) app.zipUrl=	 $scope.zipUrl;
+			if($scope.iconUrl) app.iconUrl= $scope.iconUrl;
 			AppService.updateApp(app)
 			.then(function() {
 				$location.path('apps');
@@ -68,8 +70,8 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 		$scope.pickZipFile = function(){
 				// Settings
 	    filepicker.pick({
-	        mimetype: 'application/*', /* Images only */
-	        maxSize: 1024 * 1024 * 5, /* 5mb */
+					extensions: '.zip',
+					container: 'window',
 	        services: ['*'] /* All available third-parties */
 	    }, function(blob){
 	        // Returned Stuff

@@ -19,7 +19,7 @@ angular.module('usersApp').controller('usersAppController', ['$scope','$http', '
 				username:			this.username,
 				password:			this.password,
 				apps:					_.pluck(this.appSelected,'_id'),
-				userID: 			$scope.authentication.user._id,
+				ownerID: 			$scope.authentication.user._id,
 				roles: 				this.roles.split(",")
 			};
 			usersAppService.saveUser(user,$scope.appId).then(function(){

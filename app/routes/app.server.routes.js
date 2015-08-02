@@ -18,7 +18,7 @@ module.exports = function(app) {
 		.get(apps.list);
 		app.route('/api/apps')
 			.post(users.requiresLogin,apps.create);
-
+			
 	app.route('/api/app/:appId')
 		.get(apps.read)
 		.put(users.requiresLogin, apps.update)

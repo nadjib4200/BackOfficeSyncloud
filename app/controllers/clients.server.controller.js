@@ -6,7 +6,7 @@
 var _ = require('lodash');
 var url = require('../../config/config').couchdb;
 var pouchdb=require('pouchdb');
-var db = new pouchdb(url+'users');
+var db = new pouchdb(url+'_users');
 /**
  * Get the error message from error object
  */
@@ -40,7 +40,7 @@ exports.create = function(req, res) {
 		client._id = "org.couchdb.user:"+req.body.username;
 		client.type="user";
 		client.name=req.body.username;
-		client.password=req.body.password;
+		client.motDePass=req.body.password;
 		db.put(client)
 		.then(function (response) {
 			console.log('Successfully');
@@ -71,7 +71,7 @@ exports.list = function(req, res) {
 	  attachments: true
 	}).then(function (result) {
 	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
-		res.jsonp(_.filter(rows, { userID:	req.params.userID } )); //retourne les clients de l'utilisateur connecter
+		res.jsonp(_.filter(rows, { ownerID:	req.params.userID } )); //retourne les clients de l'utilisateur connecter
 	}).catch(function (err) {
 		console.log("list client error");
 	  console.log(err);
@@ -84,7 +84,7 @@ exports.list = function(req, res) {
  */
 exports.update = function(req, res) {
 
-	db.get(req.body._id).then(function(doc) {
+	db.get(req.params.clientId).then(function(doc) {
 			console.log(req.body.roles);
 			console.log(doc.roles);
 			doc = _.extend(doc, req.body);
@@ -99,8 +99,10 @@ exports.update = function(req, res) {
 				res.json(err);
 			});
 	}).then(function(response) {
+		console.log("success");
 	  console.log(response);
 	}).catch(function (err) {
+		console.log("error");
 	  console.log(err);
 	});
 

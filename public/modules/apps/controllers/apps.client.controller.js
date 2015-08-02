@@ -14,7 +14,7 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 			var app = {
 				name: 		this.name,
 				zipUrl: 	$scope.zipUrl,
-				userId: 	$scope.authentication.user._id,
+				ownerId: 	$scope.authentication.user._id,
 				iconUrl: 	$scope.iconUrl
 			};
 

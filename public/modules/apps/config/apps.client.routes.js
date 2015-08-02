@@ -20,7 +20,6 @@ angular.module('apps').config(['$stateProvider',
 		state('editApp', {
 			url: '/apps/:appId/edit',
 			templateUrl: 'modules/apps/views/edit-app.client.view.html'
-
 		});
 	}
 ]);

@@ -1,0 +1,37 @@
+<section data-ng-controller="usersAppController" data-ng-init="find()">
+
+<div sidemenu></div>
+    <div class="wrapper row-offcanvas row-offcanvas-left" style="min-height: 612px;">
+            <aside class="right-side">
+              <section class="content-header">
+                  <h1 class="titleInProjectPage">
+                      User Page
+                  </h1>
+                  <a href="#!/users/create" class="btn btn-primary"><strong>Create User</strong></a>
+                  <ol class="breadcrumb">
+                      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                      <li class="active">Applications</li>
+                  </ol>
+              </section>
+            </aside>
+            <aside class="right-side">
+                <section class="content" >
+                    <div class="viewport-container">
+                      <h3>List of users</h3>
+                      <table class="table table-bordered table-hover">
+                        <tr>
+                        <th>firstName</th>
+                        <th>lastName</th>
+                        <th>email</th>
+                        </tr>
+                        <tr ng-repeat="user in users" class="pointer" ng-click="edit(user._id)">
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{user.email}}</td>
+                        </tr>
+                        </table>
+                    </div>
+                </section>
+            </aside>
+    </div>
+</section>

@@ -39,7 +39,8 @@ exports.create = function(req, res) {
 		var client = req.body;
 		client._id = "org.couchdb.user:"+req.body.username;
 		client.type="user";
-		client.name=req.body.lastName;
+		client.name=req.body.username;
+		client.password=req.body.password;
 		db.put(client)
 		.then(function (response) {
 			console.log('Successfully');
@@ -70,7 +71,7 @@ exports.list = function(req, res) {
 	  attachments: true
 	}).then(function (result) {
 	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
-		res.jsonp(_.filter(rows, { appID:	req.params.appID } )); //retourne les clients de l'utilisateur connecter
+		res.jsonp(_.filter(rows, { userID:	req.params.userID } )); //retourne les clients de l'utilisateur connecter
 	}).catch(function (err) {
 		console.log("list client error");
 	  console.log(err);
@@ -78,6 +79,50 @@ exports.list = function(req, res) {
 	});
 };
 
+/**
+ * Update a App
+ */
+exports.update = function(req, res) {
+
+	db.get(req.body._id).then(function(doc) {
+			console.log(req.body.roles);
+			console.log(doc.roles);
+			doc = _.extend(doc, req.body);
+			db.put(doc)
+			.then(function (response) {
+				console.log('Successfully');
+				console.log(response);
+				res.jsonp(doc);
+			}).catch(function (err) {
+				console.log('Error');
+				console.log(err);
+				res.json(err);
+			});
+	}).then(function(response) {
+	  console.log(response);
+	}).catch(function (err) {
+	  console.log(err);
+	});
+
+};
+
+/**
+ * Delete an App
+ */
+exports.delete = function(req, res) {
+	db.get(req.params.clientId).then(function(doc) {
+	  return db.remove(doc);
+	}).then(function (result) {
+	  console.log("successfully");
+		res.jsonp(result);
+	}).catch(function (err) {
+		console.log(err);
+		return res.send(400, {
+			message: getErrorMessage(err)
+		});
+	});
+
+};
 /**
  * client middleware
  */

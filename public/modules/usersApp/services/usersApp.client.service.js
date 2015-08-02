@@ -12,12 +12,12 @@ angular.module('usersApp')
 				getUserApp: function(userId){
 					return Restangular.one('client',userId).get();
 				},
-				saveUser: function(user,appId){
-					return Restangular.all('clients/'+appId).post(user); //POST a new App
+				saveUser: function(user){
+					return Restangular.all('clients').post(user); //POST a new App
 				},
 
-				updateUser: function(app){
-					return Restangular.one("client").customPUT(app, app._id);
+				updateUser: function(user){
+					return Restangular.one("client").customPUT(user, user._id);
 				},
 				removeUser: function(userId){
 					return Restangular.one('client', userId).remove();

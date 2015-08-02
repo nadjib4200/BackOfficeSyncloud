@@ -13,12 +13,15 @@ var users = require('../../app/controllers/users'),
 //
 module.exports = function(client) {
 	//  Project Routes
-	client.route('/api/clients/:appID')
-		.get(clients.list)
+	client.route('/api/clients/:userID')
+		.get(clients.list);
+	client.route('/api/clients')
 		.post(users.requiresLogin,clients.create);
 
 	client.route('/api/client/:clientId')
-		.get(clients.read);
+		.get(clients.read)
+		.put(users.requiresLogin, clients.update)
+		.delete(users.requiresLogin, clients.delete);
 
 	// Finish by binding the client middleware
 	client.param('clientId', clients.clientByID);

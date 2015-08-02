@@ -18,7 +18,6 @@
     "At.js": "~0.5.0",
     "algoliasearch": "~2.7.3",
     "angular-ladda": "~0.1.8",
-    "pubnub": "~3.7.2",
     "amcharts": "~3.11.2",
     "sugar": "~1.4.1",
     "jquery": ">=1.7.0",
@@ -26,6 +25,7 @@
     "codemirror": "~4.8.0",
     "gauss": "~0.2.12",
     "bootstrap-tagsinput": "~0.4.2",
-    "typeahead.js": "~0.10.5"
+    "typeahead.js": "~0.10.5",
+    "checklist-model": "~0.2.4"
   }
 }

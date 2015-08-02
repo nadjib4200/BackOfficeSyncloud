@@ -1,70 +1,67 @@
 <section data-ng-controller="usersAppController">
-	<div class="wrapper row-offcanvas row-offcanvas-left" style="min-height: 612px;">
+	<div class="wrapper row-offcanvas row-offcanvas-left" data-ng-init="findOne()" style="min-height: 612px;">
            <div sidemenu></div>
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
                <section class="content">
                       <div class="ut-content">
 				    	<div class="box-header">
-				        <h3 class="box-title">New user</h3>
+				        <h3 class="box-name">Edit User</h3>
 				        </div>
-							<form class="form-horizontal" data-ng-submit="create()" novalidate>
+
+							<form class="form-horizontal" data-ng-submit="update()" novalidate>
 								<fieldset >
 									<div class="form-group">
-										<label class="control-label" for="firstName">First Name</label>
+										<label class="control-label" for="firstName">First Name </label>
 										<div class="controls">
-											<input type="text" data-ng-model="firstName" id="firstName" class="form-control" placeholder="First Name" required>
+											<input type="text" data-ng-model="user.firstName" id="firstName" class="form-control" placeholder="First Name" required>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label" for="lastName">Last Name</label>
 										<div class="controls">
-											<input type="text" data-ng-model="lastName" id="lastName" class="form-control" placeholder="Last Name" required>
+											<input type="text" data-ng-model="user.lastName" id="lastName" class="form-control" placeholder="Last Name" required>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label" for="username">Username</label>
 										<div class="controls">
-											<input type="text" data-ng-model="username" id="username" class="form-control" placeholder="Username" required>
+											<input type="text" data-ng-model="user.username" id="username" class="form-control" placeholder="Username" required>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label" for="email">Email</label>
 										<div class="controls">
-											<input type="text" data-ng-model="email" id="email" class="form-control" placeholder="Email" required>
+											<input type="text" data-ng-model="user.email" id="email" class="form-control" placeholder="Email" required>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label" for="password">Password</label>
+										<label class="control-label" for="roles">roles </label>
 										<div class="controls">
-										<input type="text" data-ng-model="password" id="password" class="form-control" placeholder="password"  required>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label" for="roles">roles</label>
-										<div class="controls">
-											<input type="text" id="roles" data-ng-model="roles" placeholder="roles"/>
+											<input type="text" id="roles" data-ng-model="user.roles" placeholder="roles" >
 										</div>
 									</div>
 									<h3>select one of the following applications :</h3>
 									<div class="form-group" data-ng-init="getApps()">
 										<div ng-repeat="app in apps">
-											<input id="{{app.name}}" type="checkbox" checklist-model="appSelected" checklist-value="app">
+											<input id="{{app.name}}" type="checkbox" checklist-model="user.apps" checklist-value="app" ng-checked="inArray(user.apps,app.name)">
 											<label for="{{app.name}}">{{app.name}}</label>
 											<br>
 										</div>
 									</div>
+
+
 									<div class="form-group">
-										<input type="submit" class="btn btn-primary"  value="validate">
+										<input type="button" class="btn btn-primary" value="delete" ng-click="remove()">
+										<input type="submit" class="btn btn-primary" value="validate">
 									</div>
+
 									<div data-ng-show="error" class="text-danger">
 										<strong data-ng-bind="error"></strong>
 									</div>
 								</fieldset>
 							</form>
-
-							</div>
-					</div>
+						</div>
                </section>
 
             </aside>

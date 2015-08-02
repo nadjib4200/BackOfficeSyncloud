@@ -14,8 +14,8 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 			var app = {
 				name: 		this.name,
 				zipUrl: 	$scope.zipUrl,
-				iconUrl: 	$scope.iconUrl,
-				user:			$scope.authentication.user
+				userId: 	$scope.authentication.user._id,
+				iconUrl: 	$scope.iconUrl
 			};
 
 			AppService.saveApp(app).then(function(){

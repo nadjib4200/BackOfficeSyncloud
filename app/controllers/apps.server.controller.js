@@ -116,7 +116,7 @@ exports.list = function(req, res) {
 	  attachments: true
 	}).then(function (result) {
 	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
-		var User={ "user" : {_id: req.params.userID} }; //cree un abjet user pour le comparer avec les doc de la base de donne
+		var User={ "userId" : req.params.userID }; //cree un abjet user pour le comparer avec les doc de la base de donne
 	res.jsonp(_.filter(rows, User )); //retourne les apps de l'utilisateur connecter
 	}).catch(function (err) {
 		console.log(err);

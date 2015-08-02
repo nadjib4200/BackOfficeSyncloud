@@ -5,7 +5,7 @@ var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'syncloud';
 	var applicationModuleVendorDependencies = [ 'ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router', 'ui.bootstrap',
-	'ui.utils', 'restangular', 'angular-ladda'];
+	'ui.utils', 'restangular', 'angular-ladda', 'checklist-model'];
 
 	// Add a new vertical module
 	var registerModule = function(moduleName) {

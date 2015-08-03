@@ -85,8 +85,6 @@ exports.list = function(req, res) {
 exports.update = function(req, res) {
 
 	db.get(req.params.clientId).then(function(doc) {
-			console.log(req.body.roles);
-			console.log(doc.roles);
 			doc = _.extend(doc, req.body);
 			db.put(doc)
 			.then(function (response) {

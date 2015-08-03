@@ -55,9 +55,6 @@ angular.module('usersApp').controller('usersAppController', ['$scope','$http', '
 		$scope.update = function() {
 			var user = $scope.user;
 			user.roles = user.roles.split(",");
-			user.apps.forEach(function(value,key){
-				value = value._id;
-			});
 			user.password = user.motDePass;
 			usersAppService.updateUser(user)
 			.then(function() {

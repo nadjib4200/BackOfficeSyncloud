@@ -50,7 +50,7 @@
 									<h3>select one of the following applications :</h3>
 									<div class="form-group" data-ng-init="getApps()">
 										<div ng-repeat="app in apps">
-											<input id="{{app.name}}" type="checkbox" checklist-model="user.apps" checklist-value="app" ng-checked="inArray(user.apps,app.name)">
+											<input id="{{app.name}}" type="checkbox" checklist-model="user.apps" checklist-value="app._id" ng-checked="inArray(user.apps,app.name)">
 											<label for="{{app.name}}">{{app.name}}</label>
 											<br>
 										</div>

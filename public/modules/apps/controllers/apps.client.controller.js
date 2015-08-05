@@ -72,35 +72,22 @@ angular.module('apps').controller('AppsController', ['$scope', '$rootScope', '$s
 	    filepicker.pick({
 					extensions: '.zip',
 					container: 'window',
-	        services: ['*'] /* All available third-parties */
+	        services: ['*']
 	    }, function(blob){
-	        // Returned Stuff
-	        /*var filename = blob.filename;
-	        var url = blob.url;
-	        var id = blob.id;
-	        var isWriteable = blob.isWriteable;
-	        var mimetype = blob.mimetype;
-	        var size = blob.size;*/
+					angular.element("#zipUrl").val(blob.url);
 					$scope.zipUrl=blob.url;
-	        console.log(blob);
 	    });
 		}
 		$scope.pickIconFile = function(){
 				// Settings
 	    filepicker.pick({
-	        mimetype: 'image/*', /* Images only */
-	        maxSize: 1024 * 1024 * 5, /* 5mb */
-	        services: ['*'] /* All available third-parties */
+	        mimetype: 'image/*',
+	        maxSize: 1024 * 1024 * 5,
+					container: 'window',
+	        services: ['*'] 
 	    }, function(blob){
-	        // Returned Stuff
-	        /*var filename = blob.filename;
-	        var url = blob.url;
-	        var id = blob.id;
-	        var isWriteable = blob.isWriteable;
-	        var mimetype = blob.mimetype;
-	        var size = blob.size;*/
+					angular.element("#iconUrl").val(blob.url);
 					$scope.iconUrl=blob.url;
-	        console.log(blob)
 	    });
 		}
 

@@ -23,10 +23,18 @@
 											<a class="btn btn-danger" ng-click="pickIconFile()">upload a Icon file of this app</a>
 										</div>
 									</div>
+
 									<div class="form-group">
-										<label class="control-label" for="key">Action</label>
+										<label class="control-label" for="zipUrl">Url of zip file </label>
 										<div class="controls">
-										<label type="text"  id="key" class="form-control ut-key-bg" placeholder="key"  >{{app.key}}</label>
+											<input type="text" data-ng-model="app.zipUrl" id="zipUrl" class="form-control" placeholder="Url of zip file" required>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label" for="iconUrl">Url of icone file </label>
+										<div class="controls">
+											<input type="text" data-ng-model="app.iconUrl" id="iconUrl" class="form-control" placeholder="Url of icone file" required>
 										</div>
 									</div>
 

@@ -80,6 +80,28 @@ exports.list = function(req, res) {
 };
 
 /**
+ * List of clients
+ */
+exports.loginClient = function(req, res) {
+	console.log("loginClient");
+	db.allDocs({
+	  include_docs: true,
+	  attachments: true
+	}).then(function (result) {
+	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
+		rows.splice(0, 1);
+		var row=_.filter(rows, { username: req.body.username, motDePass: req.body.password } );
+		console.log(row);
+		if(row[0]) {console.log("OK");res.jsonp(row);}
+		else {console.log("not OK");res.jsonp(row);}
+	}).catch(function (err) {
+		console.log("list client error");
+	  console.log(err);
+	  res.jsonp(err);
+	});
+};
+
+/**
  * Update a App
  */
 exports.update = function(req, res) {

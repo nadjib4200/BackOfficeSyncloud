@@ -17,8 +17,7 @@ module.exports = function(client) {
 		.get(clients.list);
 	client.route('/api/clients')
 		.post(users.requiresLogin,clients.create);
-	client.route('/api/client/Login')
-			.post(clients.loginClient);
+
 	client.route('/api/client/:clientId')
 		.get(clients.read)
 		.put(users.requiresLogin, clients.update)

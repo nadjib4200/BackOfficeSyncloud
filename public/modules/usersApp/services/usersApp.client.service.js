@@ -7,20 +7,20 @@ angular.module('usersApp')
 
 			return {
 				getUsersApp: function(appId){
-					return Restangular.all('clients/'+appId).getList();
+					return Restangular.all('clients/'+appId+'?ts='+(new Date().getTime())).getList();
 				},
 				getUserApp: function(userId){
-					return Restangular.one('client',userId).get();
+					return Restangular.one('client',userId).get({ts : new Date().getTime()});
 				},
 				saveUser: function(user){
-					return Restangular.all('clients').post(user); //POST a new App
+					return Restangular.all('clients?ts='+(new Date().getTime())).post(user); //POST a new App
 				},
 
 				updateUser: function(user){
-					return Restangular.one("client").customPUT(user, user._id);
+					return Restangular.one("client").customPUT(user, user._id, {ts : new Date().getTime()});
 				},
 				removeUser: function(userId){
-					return Restangular.one('client', userId).remove();
+					return Restangular.one('client', userId).remove({ts : new Date().getTime()});
 				}
 
 			}

@@ -45,7 +45,7 @@ exports.create = function(req, res) {
 		.then(function (response) {
 			console.log('Successfully');
 			console.log(response);
-			res.jsonp(app);
+			res.send(app);
 		}).catch(function (err) {
 			console.log('Error');
 			console.log(err);
@@ -58,7 +58,7 @@ exports.create = function(req, res) {
  */
 exports.read = function(req, res) {
 	console.log("read");
-	res.jsonp(req.App);
+	res.send(req.App);
 };
 
 /**
@@ -75,11 +75,11 @@ exports.update = function(req, res) {
 			.then(function (response) {
 				console.log('Successfully');
 				console.log(response);
-				res.jsonp(App);
+				res.send(App);
 			}).catch(function (err) {
 				console.log('Error');
 				console.log(err);
-				res.json(err);
+				res.send(err);
 			});
 	}).then(function(response) {
 	  console.log(response);
@@ -97,7 +97,7 @@ exports.delete = function(req, res) {
 	db.get(App._id).then(function(doc) {
 	  return db.remove(doc);
 	}).then(function (result) {
-	  res.jsonp(App);
+	  res.send(App);
 	}).catch(function (err) {
 		console.log(err);
 		return res.send(400, {
@@ -117,10 +117,10 @@ exports.list = function(req, res) {
 	}).then(function (result) {
 	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
 		var User={ "ownerId" : req.params.userID }; //cree un abjet user pour le comparer avec les doc de la base de donne
-	res.jsonp(_.filter(rows, User )); //retourne les apps de l'utilisateur connecter
+	res.send(_.filter(rows, User )); //retourne les apps de l'utilisateur connecter
 	}).catch(function (err) {
 		console.log(err);
-	  res.jsonp(err);
+	  res.send(err);
 	});
 };
 

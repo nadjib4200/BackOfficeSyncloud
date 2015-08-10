@@ -7,25 +7,24 @@ angular.module('apps')
 
 			return {
 				getApps: function(userID){
-					return Restangular.all('apps/'+userID).getList(); //GET api/apps
+					return Restangular.all('apps/'+userID+'?ts='+(new Date().getTime())).getList();
 				},
 
 				getApp: function(appId){
-					// Just ONE GET to /api/apps/123
-					return Restangular.one('app', appId).get();
+					return Restangular.one('app', appId).get({ts : new Date().getTime()});
 				},
 
 				saveApp: function(app){
-					return Restangular.all('apps').post(app); //POST a new App
+					return Restangular.all('apps?ts='+(new Date().getTime())).post(app); //POST a new App
 				},
 
 				updateApp: function(app){
-					return Restangular.one("app").customPUT(app, app._id);
+					return Restangular.one("app").customPUT(app, app._id, {ts : new Date().getTime()});
 				},
 
 				removeApp: function(appId){
 					// Just ONE GET to /api/apps/123
-					return Restangular.one('app', appId).remove();
+					return Restangular.one('app', appId).remove({ts : new Date().getTime()});
 				}
 
 			}

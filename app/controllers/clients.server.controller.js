@@ -45,7 +45,7 @@ exports.create = function(req, res) {
 		.then(function (response) {
 			console.log('Successfully');
 			console.log(response);
-			res.jsonp(client);
+			res.send(client);
 		}).catch(function (err) {
 			console.log('Error');
 			console.log(err);
@@ -59,7 +59,7 @@ exports.create = function(req, res) {
 
 exports.read = function(req, res) {
 	console.log("get client");
-	res.jsonp(req.client);
+	res.send(req.client);
 };
 
 /**
@@ -71,35 +71,14 @@ exports.list = function(req, res) {
 	  attachments: true
 	}).then(function (result) {
 	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
-		res.jsonp(_.filter(rows, { ownerID:	req.params.userID } )); //retourne les clients de l'utilisateur connecter
+		res.send(_.filter(rows, { ownerID:	req.params.userID } )); //retourne les clients de l'utilisateur connecter
 	}).catch(function (err) {
 		console.log("list client error");
 	  console.log(err);
-	  res.jsonp(err);
+	  res.send(err);
 	});
 };
 
-/**
- * List of clients
- */
-exports.loginClient = function(req, res) {
-	console.log("loginClient");
-	db.allDocs({
-	  include_docs: true,
-	  attachments: true
-	}).then(function (result) {
-	  var rows=_.map(result.rows, 'doc');//pour avoir juste les document de la base de donne
-		rows.splice(0, 1);
-		var row=_.filter(rows, { username: req.body.username, motDePass: req.body.password } );
-		console.log(row);
-		if(row[0]) {console.log("OK");res.jsonp(row);}
-		else {console.log("not OK");res.jsonp(row);}
-	}).catch(function (err) {
-		console.log("list client error");
-	  console.log(err);
-	  res.jsonp(err);
-	});
-};
 
 /**
  * Update a App
@@ -112,11 +91,11 @@ exports.update = function(req, res) {
 			.then(function (response) {
 				console.log('Successfully');
 				console.log(response);
-				res.jsonp(doc);
+				res.send(doc);
 			}).catch(function (err) {
 				console.log('Error');
 				console.log(err);
-				res.json(err);
+				res.send(err);
 			});
 	}).then(function(response) {
 		console.log("success");
@@ -136,7 +115,7 @@ exports.delete = function(req, res) {
 	  return db.remove(doc);
 	}).then(function (result) {
 	  console.log("successfully");
-		res.jsonp(result);
+		res.send(result);
 	}).catch(function (err) {
 		console.log(err);
 		return res.send(400, {

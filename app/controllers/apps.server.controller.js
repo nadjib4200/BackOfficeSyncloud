@@ -3,8 +3,7 @@
 /**
  * Module dependencies.
  */
-var uuid = require('node-uuid'),
-	_ = require('lodash');
+	var _ = require('lodash');
 	var url = require('../../config/config').couchdb;
 	var pouchdb=require('pouchdb');
 	var db = new pouchdb(url+'applications');
@@ -39,7 +38,6 @@ var getErrorMessage = function(err) {
 exports.create = function(req, res) {
 
 		var app = req.body;
-		app.key = uuid.v1();
 		app._id = req.body.name;
 		db.put(app)
 		.then(function (response) {
@@ -67,9 +65,6 @@ exports.read = function(req, res) {
 exports.update = function(req, res) {
 	var App = req.App;
 	db.get(App.name).then(function(doc) {
-			if(!App.key){
-				App.key = uuid.v1();
-			}
 			App = _.extend(App, req.body);
 			db.put(App)
 			.then(function (response) {
